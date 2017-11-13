@@ -1,0 +1,24 @@
+extends layout
+
+block content
+	h1= title
+	p Welcome to #{title}
+	form(id="form")
+		p
+			span @
+			input(id="twitter-handle" type="text" name="twitter-handle")
+			input(id="submit" name="submit" type="submit" value="Favourite me!")
+
+		p
+			label(for="max-tweets") Maximum number of tweets to sample:
+			br
+			input(id="max-tweets" name="max-tweets" type="range" min=20 max=200)
+			span(id="max-tweets-value")
+
+		p
+			label() Number of generated tweets to return:
+			br
+			input(id="max-generate" name="max-tweets" type="range" min=1 max=20)
+			span(id="max-generate-value")
+
+	div(id="result")
