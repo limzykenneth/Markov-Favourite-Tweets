@@ -1,0 +1,76 @@
+*{
+	box-sizing: border-box;
+}
+
+body {
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background-color: #e7ecf0;
+}
+
+a {
+	color: #00B7FF;
+}
+
+#page-header{
+
+}
+
+#page-content{
+	width: 60%;
+	margin: 25px auto;
+	padding: 50px;
+	background-color: #fff;
+	min-height: 90vh;
+
+	.title{
+		position: relative;
+	}
+
+	.description{
+		position: relative;
+		width: 100%;
+	}
+
+	.collapsible-title{
+		cursor: pointer;
+	}
+
+	.collapsible{
+		display: none;
+	}
+
+	#tweets{
+		min-height: 2rem;
+
+		.tweet{
+			border-radius: 5px;
+			border: 1px solid black;
+			padding: 1rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			min-height: 2rem;
+
+			.generated-sentence{
+				display: inline-block;
+				min-height: 2rem;
+			}
+
+			.tweet-button{
+				display: inline-block;
+				height: 2rem;
+				margin-left: 2rem;
+				flex-shrink: 0;
+
+				button{
+					height: 100%;
+					width: 100%;
+				}
+			}
+		}
+	}
+}
+
+#page-footer{
+
+}

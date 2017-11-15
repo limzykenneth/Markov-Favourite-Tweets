@@ -11,7 +11,7 @@
     "debug": "~2.6.9",
     "dotenv": "^4.0.0",
     "express": "~4.15.5",
-    "jade": "~1.11.0",
+    "express-handlebars": "^3.0.0",
     "js-base64": "^2.3.2",
     "lodash": "^4.17.4",
     "morgan": "~1.9.0",
@@ -19,5 +19,16 @@
     "rita": "^1.2.12",
     "serve-favicon": "~2.4.5",
     "twit": "^2.2.9"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-less": "^3.3.2",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-util": "^3.0.8"
   }
 }

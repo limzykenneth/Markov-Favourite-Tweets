@@ -1,0 +1,50 @@
+<div id="page-header"></div>
+
+<div id="page-content">
+	<h1 class="title">{{title}}</h1>
+
+	<section class="description">
+		<p>
+			Did you run out of tweets to like? How about let a machine generate new tweets for you to like? Just enter your Twitter handle and new tweets will be generated based on what you liked recently! You can then ask it to tweet it out while you can proceed to "like" it! How's that?</p>
+
+		<p>
+			Disclaimer: This service will look at tweets you have liked recently but it will not save any data about you, at all. It won't be held responsible for who it @ tag so keep it off if you don't want to harrass people by tagging them.
+		</p>
+	</section>
+
+	<form id="form">
+		<p>
+			<span>@</span><input id="twitter-handle" type="text" name="twitter-handle">
+			<input id="submit" name="submit" type="submit" value="Favourite me!">
+		</p>
+
+		<div id="details" class="collapsible" x-collapsible-title="Details" x-collapsible-status="collapsed">
+			<p>
+				<label for="max-tweets">Maximum number of tweets to sample:</label>
+				<br>
+				<input id="max-tweets" name="max-tweets" type="range" min=20 max=200>
+				<span id="max-tweets-value"></span>
+			</p>
+
+			<p>
+				<input id="max-generate" name="max-tweets" type="range" min=1 max=20>
+				<span id="max-generate-value"></span>
+			</p>
+		</div>
+	</form>
+
+	<h2>You may like...</h2>
+	<section id="tweets"></section>
+</div>
+
+<div id="page-footer"></div>
+
+<script id="tweets-template" type="text/template">
+	<%
+		_.each(sentences, function(sentence, i){
+		%>
+			<p class="tweet"><span class="generated-sentence"><%= sentence %></span><span class="tweet-button"><button id="tweet-this">Tweet and I'll Like!</button></span></p>
+		<%
+		});
+	%>
+</script>
