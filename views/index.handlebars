@@ -5,10 +5,10 @@
 
 	<section class="description">
 		<p>
-			Did you run out of tweets to like? How about let a machine generate new tweets for you to like? Just enter your Twitter handle and new tweets will be generated based on what you liked recently! You can then ask it to tweet it out while you can proceed to "like" it! How's that?</p>
+			Did you run out of tweets to like? How about letting a machine generate new tweets for you to like? Just enter your Twitter handle and new tweets will be generated based on what you liked recently! You can then ask it to tweet it out while you can proceed to "like" it! How's that?</p>
 
 		<p>
-			Disclaimer: This service will look at tweets you have liked recently but it will not save any data about you, at all. It won't be held responsible for who it @ tag so keep it off if you don't want to harrass people by tagging them.
+			Disclaimer: This service will look at tweets you have liked recently but it will not save any data about you, at all.
 		</p>
 	</section>
 
@@ -20,6 +20,10 @@
 
 		<div id="details" class="collapsible" x-collapsible-title="Details" x-collapsible-status="collapsed">
 			<p>
+				This app uses a Markov chain to analyse tweets you liked and generate new ones from the results. You can tweak some of the settings below.
+			</p>
+
+			<p>
 				<label for="max-tweets">Maximum number of tweets to sample:</label>
 				<br>
 				<input id="max-tweets" name="max-tweets" type="range" min=20 max=200>
@@ -27,14 +31,18 @@
 			</p>
 
 			<p>
+				<label for="max-generate">Number of tweets to generate:</label>
+				<br>
 				<input id="max-generate" name="max-tweets" type="range" min=1 max=20>
 				<span id="max-generate-value"></span>
 			</p>
 		</div>
 	</form>
 
-	<h2>You may like...</h2>
-	<section id="tweets"></section>
+	<section id="result">
+		<h2>You may like...</h2>
+		<article id="tweets"></article>
+	</section>
 </div>
 
 <div id="page-footer"></div>

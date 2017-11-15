@@ -72,6 +72,7 @@ $(document).ready(function() {
 });
 
 function renderTweets(sentences){
+	$("#page-content #result").css("display", "block");
 	var tpl = _.template($("#tweets-template").html());
 
 	$("#tweets").html(tpl({sentences: sentences}));
