@@ -2,7 +2,11 @@ extends layout
 
 block content
 	h1= title
-	p Welcome to #{title}
+	p Did you run out of tweets to like? How about let a machine generate new tweets for you to like? Just enter your Twitter handle and new tweets will be generated based on what you liked recently! You can then ask it to tweet it out while you can proceed to "like" it! How's that?
+
+	p Disclaimer: This service will look at tweets you have liked recently but it will not save any data about you, at all. It won't be held responsible for who it @ tag so keep it off if you don't want to harrass people by tagging them.
+
+
 	form(id="form")
 		p
 			span @
@@ -16,7 +20,7 @@ block content
 			span(id="max-tweets-value")
 
 		p
-			label() Number of generated tweets to return:
+			label(for="max-generate") Number of generated tweets to return:
 			br
 			input(id="max-generate" name="max-tweets" type="range" min=1 max=20)
 			span(id="max-generate-value")
