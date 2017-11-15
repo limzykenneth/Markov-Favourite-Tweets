@@ -5,7 +5,7 @@ var genSentence = require("../analyseTweet.js").generateSentence;
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
-	res.render("index", { title: "Favourited" });
+	res.render("index", { title: "We are what we like." });
 });
 
 router.post("/", function(req, res, next){

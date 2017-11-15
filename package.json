@@ -1,7 +1,12 @@
 {
-  "name": "markov-tweet",
+  "name": "we-are-what-we-like",
+  "description": "Generate and tweet out tweets that you may like based on tweets you recently liked.",
   "version": "0.0.0",
   "private": true,
+  "author": "limzykenneth <limzy.kenneth@gmail.com> (https://designerken.be/designing)",
+  "engines": {
+    "node": "^8.9.1"
+  },
   "scripts": {
     "start": "node ./bin/www"
   },
@@ -30,5 +35,6 @@
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.8"
-  }
+  },
+  "license": "BSD-2-Clause"
 }
