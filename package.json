@@ -1,7 +1,7 @@
 {
   "name": "we-are-what-we-like",
   "description": "Generate and tweet out tweets that you may like based on tweets you recently liked.",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "author": "limzykenneth <limzy.kenneth@gmail.com> (https://designerken.be/designing)",
   "engines": {
