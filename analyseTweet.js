@@ -78,11 +78,18 @@ function filterTweets(tweet){
 
 var generateSentence = function(res){
 	return new Promise(function(resolve, reject){
+		// Removing spaces left after certain symbols
 		var symbolsRegex = /([#$&]) (.+?)\b/gm;
 
 		if(res.rm.ready()){
 			var sentences = res.rm.generateSentences(res.returnSize).map(function(sentence){
-				return sentence.replace(symbolsRegex, "$1$2");
+				var sen = sentence.replace(symbolsRegex, "$1$2");
+				sen = sen.replace("<", "&lt;");
+				sen = sen.replace(">", "&gt;");
+				sen = sen.replace("\"", "&quot;");
+				sen = sen.replace("'", "&#x27;");
+				sen = sen.replace("/", "&#x2F;");
+				return sen;
 			});
 			resolve(sentences);
 			return;
@@ -90,7 +97,13 @@ var generateSentence = function(res){
 			var interval = setInterval(function(){
 				if(res.rm.ready()){
 					var sentences = res.rm.generateSentences(res.returnSize).map(function(sentence){
-						return sentence.replace(symbolsRegex, "$1$2");
+						var sen = sentence.replace(symbolsRegex, "$1$2");
+						sen = sen.replace("<", "&lt;");
+						sen = sen.replace(">", "&gt;");
+						sen = sen.replace("\"", "&quot;");
+						sen = sen.replace("'", "&#x27;");
+						sen = sen.replace("/", "&#x2F;");
+						return sen;
 					});
 					resolve(sentences);
 					clearInterval(interval);
