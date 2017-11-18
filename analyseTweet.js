@@ -54,7 +54,6 @@ let getFavourites = function(screenName, count=100, returnSize=5){
 			});
 
 			tweets = _.map(tweets, filterTweets);
-			console.log(tweets);
 
 			rm.loadText(tweets.join(" "));
 
@@ -67,22 +66,33 @@ let getFavourites = function(screenName, count=100, returnSize=5){
 };
 
 function filterTweets(tweet){
+	// Remove URLS, tend to mess up the Markov Chain
 	var urlRegex = /(?:(?:http[s]?|ftp):\/)?\/?(?:[^:/\s]+)(?:(?:\/\w+)*\/)(?:[\w\-.]+[^#?\s]+)(?:.*)?(?:#[\w-]+)?/gm;
+	// Remove ellipses
+	var ellipsesRegex = /\.{2,}|…+/gm;
 
-	var result = tweet.replace(urlRegex, "");
+	var result = tweet.replace(urlRegex, "").replace(ellipsesRegex, ".");
 
 	return result;
 }
 
 var generateSentence = function(res){
 	return new Promise(function(resolve, reject){
+		var symbolsRegex = /([#$&]) (.+?)\b/gm;
+
 		if(res.rm.ready()){
-			resolve(res.rm.generateSentences(res.returnSize));
+			var sentences = res.rm.generateSentences(res.returnSize).map(function(sentence){
+				return sentence.replace(symbolsRegex, "$1$2");
+			});
+			resolve(sentences);
 			return;
 		}else{
 			var interval = setInterval(function(){
 				if(res.rm.ready()){
-					resolve(res.rm.generateSentences(res.returnSize));
+					var sentences = res.rm.generateSentences(res.returnSize).map(function(sentence){
+						return sentence.replace(symbolsRegex, "$1$2");
+					});
+					resolve(sentences);
 					clearInterval(interval);
 					return;
 				}
