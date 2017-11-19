@@ -18,17 +18,17 @@ app.engine("handlebars", exphbs({
 }));
 app.set("view engine", "handlebars");
 
-app.use(csp({
-	// Specify directives as normal.
-	directives: {
-		defaultSrc: ["'self'"],
-		scriptSrc: ["'self'", "cdnjs.cloudflare.com", "use.fontawesome.com"],
-		styleSrc: ["'self'", "use.fontawesome.com"],
-		fontSrc: ["use.fontawesome.com"]
-	},
+// app.use(csp({
+// 	// Specify directives as normal.
+// 	directives: {
+// 		defaultSrc: ["'self'"],
+// 		scriptSrc: ["'self'", "cdnjs.cloudflare.com", "use.fontawesome.com"],
+// 		styleSrc: ["'self'", "use.fontawesome.com"],
+// 		fontSrc: ["use.fontawesome.com"]
+// 	},
 
-	reportOnly: true
-}));
+// 	reportOnly: true
+// }));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, "public", "favicon.ico")));

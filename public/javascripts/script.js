@@ -64,11 +64,6 @@ $(document).ready(function() {
 			$target.css("display", "none");
 		}
 	});
-
-	// Tweet generated tweet
-	$("#page-content #tweets .tweet #tweet-this").click(function(e) {
-
-	});
 });
 
 function renderTweets(sentences){
