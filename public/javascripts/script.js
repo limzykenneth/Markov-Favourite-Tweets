@@ -71,4 +71,21 @@ function renderTweets(sentences){
 	var tpl = _.template($("#tweets-template").html());
 
 	$("#tweets").html(tpl({sentences: sentences}));
+
+	$("#page-content #result #tweets .twitter-share-button").click(function(e) {
+		var content = {
+			tweet: $(this).parent().siblings(".generated-sentence").text() + " via @limzykenneth"
+		};
+		fetch("/tweeted", {
+			method: "post",
+			body: JSON.stringify(content),
+			headers: new Headers({
+				"Content-Type": "application/json"
+			})
+		}).then(function(res){
+			return res.json();
+		}).then(function(data){
+			console.log(data);
+		});
+	});
 }

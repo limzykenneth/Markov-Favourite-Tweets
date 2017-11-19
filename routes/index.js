@@ -20,4 +20,9 @@ router.get("/me", function(req, res, next){
 	});
 });
 
+router.post("/tweeted", function(req, res, next){
+	console.log(req.body.tweet);
+	res.json(["liked"]);
+});
+
 module.exports = router;

@@ -51,7 +51,7 @@
 	<%
 		_.each(sentences, function(sentence, i){
 		%>
-			<p class="tweet"><span class="generated-sentence"><%= sentence %></span><span class="tweet-button"><a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(sentence) %>" data-size="large"><i class="fa fa-twitter" aria-hidden="true"></i> Tweet</a></span></p>
+			<p class="tweet"><span class="generated-sentence"><%= sentence %></span><span class="tweet-button"><a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=<%= sentence %>&via=limzykenneth" data-size="large"><i class="fa fa-twitter" aria-hidden="true"></i> Tweet</a></span></p>
 		<%
 		});
 	%>
