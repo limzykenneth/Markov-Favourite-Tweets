@@ -6,6 +6,8 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var exphbs  = require("express-handlebars");
 var csp = require("helmet-csp");
+var TweetMonitor = require("./routes/utils/tweetMonitor.js");
+var tm = new TweetMonitor();
 
 var index = require("./routes/index");
 
@@ -39,6 +41,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", index);
+
+// Run TweetMonitor
+tm.setInterval();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

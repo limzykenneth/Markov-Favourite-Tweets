@@ -2,6 +2,15 @@ var express = require("express");
 var router = express.Router();
 var getFavourites = require("../analyseTweet.js").getFavourites;
 var genSentence = require("../analyseTweet.js").generateSentence;
+var Promise = require("bluebird");
+var redis = require("redis");
+Promise.promisifyAll(redis.RedisClient.prototype);
+Promise.promisifyAll(redis.Multi.prototype);
+var	client = redis.createClient();
+
+client.on("error", function(err){
+	throw err;
+});
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
@@ -21,7 +30,13 @@ router.get("/me", function(req, res, next){
 });
 
 router.post("/tweeted", function(req, res, next){
-	console.log(req.body.tweet);
+	// Save tweet into Redis store with the tweet as the key
+	client.setexAsync(req.body.tweet, 240, Date.now()).then(function(res){
+		// Should say "OK"
+		console.log(res);
+	}).catch(function(err){
+		next(err);
+	});
 	res.json(["liked"]);
 });
 
