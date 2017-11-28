@@ -3,6 +3,7 @@ const fetch = require("node-fetch");
 const Base64 = require("js-base64").Base64;
 const _ = require("lodash");
 const rita = require("rita");
+const cache = require("memory-cache");
 
 // For local testing only
 const screenName = process.env.AccountHandle;
@@ -35,39 +36,51 @@ let authenticate = fetch("https://api.twitter.com/oauth2/token", {
 
 // Get favourited tweets of the user given by screenName
 let getFavourites = function(screenName, count=100, returnSize=5){
-	return authenticate.then(function(accessToken){
-		var rm = new rita.RiMarkov(3, true, false);
-		var reqURL = `${endPointURL}?screen_name=${screenName}&count=${count}&tweet_mode=extended`;
-		return fetch(reqURL, {
-			headers: {
-				"Authorization": `Bearer ${accessToken}`,
-				"Accept-Encoding": "gzip"
-			}
-		}).then(function(response){
-			return response.json();
-		}).then(function(data){
-			if(data.errors) throw new Error(JSON.stringify(data.errors));
+	var rm = new rita.RiMarkov(3, true, false);
 
-			var tweets = [];
+	if(cache.get(screenName) !== null){
+		rm.loadText(cache.get(screenName));
 
-			_.each(data, function(el, i){
-				if(el.full_text && el.full_text.length > 0){
-					tweets.push(el.full_text);
-				}
-			});
-
-			tweets = _.map(tweets, filterTweets);
-
-			rm.loadText(tweets.join(" "));
-
-			return Promise.resolve({
-				rm: rm,
-				returnSize: returnSize
-			});
-		}).catch(function(err){
-			console.log(err.stack);
+		return Promise.resolve({
+			rm: rm,
+			returnSize: returnSize
 		});
-	});
+	}else{
+		return authenticate.then(function(accessToken){
+			var reqURL = `${endPointURL}?screen_name=${screenName}&count=${count}&tweet_mode=extended`;
+			return fetch(reqURL, {
+				headers: {
+					"Authorization": `Bearer ${accessToken}`,
+					"Accept-Encoding": "gzip"
+				}
+			}).then(function(response){
+				return response.json();
+			}).then(function(data){
+				if(data.errors) throw new Error(JSON.stringify(data.errors));
+
+				var tweets = [];
+
+				_.each(data, function(el, i){
+					if(el.full_text && el.full_text.length > 0){
+						tweets.push(el.full_text);
+					}
+				});
+
+				tweets = _.map(tweets, filterTweets);
+				var text = tweets.join(" ");
+
+				rm.loadText(text);
+				cache.put(screenName, text, 5*60*1000);
+
+				return Promise.resolve({
+					rm: rm,
+					returnSize: returnSize
+				});
+			}).catch(function(err){
+				console.log(err.stack);
+			});
+		});
+	}
 };
 
 // Utility function to filter tweets content
