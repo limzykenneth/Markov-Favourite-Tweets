@@ -91,6 +91,9 @@ let generateSentence = function(res){
 				var sen = sentence.replace(symbolsRegex, "$1$2");
 				return sen;
 			});
+
+			// What is returned here is NOT sanitized,
+			// the frontend should sanitize appropriately by HTML encoding or URL encoding
 			resolve(sentences);
 			return;
 		}else{
@@ -100,6 +103,9 @@ let generateSentence = function(res){
 						var sen = sentence.replace(symbolsRegex, "$1$2");
 						return sen;
 					});
+
+					// What is returned here is NOT sanitized,
+					// the frontend should sanitize appropriately by HTML encoding or URL encoding
 					resolve(sentences);
 					clearInterval(interval);
 					return;
