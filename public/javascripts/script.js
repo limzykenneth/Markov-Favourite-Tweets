@@ -70,11 +70,9 @@ function renderTweets(sentences){
 	$("#page-content #result").css("display", "block");
 	var tpl = _.template($("#tweets-template").html());
 
-	// console.log(he.encode(encodeURIComponent(sentences[0])));
-	// sentences = sentences.map(function(sen){
-		// return he.decode(sen);
-	// });
-
+	sentences = sentences.map(function(sen){
+		return he.decode(sen);
+	});
 	$("#tweets").html(tpl({sentences: sentences}));
 
 	$("#page-content #result #tweets .twitter-share-button").click(function(e) {

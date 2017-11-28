@@ -87,10 +87,16 @@ let generateSentence = function(res){
 		var symbolsRegex = /([#$&]) (.+?)\b/gm;
 
 		if(res.rm.ready()){
-			var sentences = res.rm.generateSentences(res.returnSize).map(function(sentence){
-				var sen = sentence.replace(symbolsRegex, "$1$2");
-				return sen;
-			});
+			var sentences = [];
+			while(res.returnSize-sentences.length > 0){
+				var s = res.rm.generateSentences(res.returnSize-sentences.length).map(function(sentence){
+					var sen = sentence.replace(symbolsRegex, "$1$2");
+					return sen;
+				}).filter(function(sentence){
+					return sentence.length <= 140;
+				});
+				sentences = sentences.concat(s);
+			}
 
 			// What is returned here is NOT sanitized,
 			// the frontend should sanitize appropriately by HTML encoding or URL encoding
@@ -99,10 +105,17 @@ let generateSentence = function(res){
 		}else{
 			var interval = setInterval(function(){
 				if(res.rm.ready()){
-					var sentences = res.rm.generateSentences(res.returnSize).map(function(sentence){
-						var sen = sentence.replace(symbolsRegex, "$1$2");
-						return sen;
-					});
+					var sentences = [];
+					while(res.returnSize-sentences.length > 0){
+						var s = res.rm.generateSentences(res.returnSize-sentences.length).map(function(sentence){
+							var sen = sentence.replace(symbolsRegex, "$1$2");
+							return sen;
+						}).filter(function(sentence){
+							return sentence.length <= 140;
+						});
+						sentences = sentences.concat(s);
+					}
+
 
 					// What is returned here is NOT sanitized,
 					// the frontend should sanitize appropriately by HTML encoding or URL encoding
