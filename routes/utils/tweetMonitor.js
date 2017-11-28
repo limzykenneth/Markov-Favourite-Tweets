@@ -39,7 +39,7 @@ tweetMonitor.prototype.getMentions = function(){
 		// Store complete tweet in matches array
 		var matches = result.data;
 		// Simple Regex to pare down tweets that we want to look at
-		var viaRegex = /via @limzykenneth$/g;
+		var viaRegex = new RegExp(` via @${process.env.AccountHandle}$`, "g");
 		matches = matches.filter(function(tweet){
 			return viaRegex.test(tweet.text);
 		});
@@ -48,13 +48,10 @@ tweetMonitor.prototype.getMentions = function(){
 		async.each(matches, (match, cb) => {
 			// Find the tweet in Redis
 			client.getAsync(match.text).then((res) => {
-				console.log("Redis", res);
 				if(res !== null){
 					// Like the tweet
-					this.likeMatch(match);
-
 					// If found, call callback with no arguments
-					cb();
+					this.likeMatch(match).then(cb);
 				}
 			}).catch(function(err){
 				cb(err);
@@ -67,14 +64,15 @@ tweetMonitor.prototype.getMentions = function(){
 	});
 };
 
+// Like the tweet, return promise
 tweetMonitor.prototype.likeMatch = function(match){
-	console.log(match);
-	T.post("favorites/create", {id: match.id_str}).then(function(res){
+	return T.post("favorites/create", {id: match.id_str}).then(function(res){
+		// Check for errors returned by the endpoint
 		if(res.data.errors === undefined){
-			console.log(res);
-
 			// Delete the tweet from Redis
-			client.delAsync(match.text);
+			return client.delAsync(match.text);
+		}else{
+			return Promise.reject(new Error(res.data.errors));
 		}
 	});
 };

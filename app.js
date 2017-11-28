@@ -1,3 +1,4 @@
+require("dotenv").config();
 var express = require("express");
 var path = require("path");
 var favicon = require("serve-favicon");
@@ -20,17 +21,20 @@ app.engine("handlebars", exphbs({
 }));
 app.set("view engine", "handlebars");
 
-// app.use(csp({
-// 	// Specify directives as normal.
-// 	directives: {
-// 		defaultSrc: ["'self'"],
-// 		scriptSrc: ["'self'", "cdnjs.cloudflare.com", "use.fontawesome.com"],
-// 		styleSrc: ["'self'", "use.fontawesome.com"],
-// 		fontSrc: ["use.fontawesome.com"]
-// 	},
+// Deploy CSP on production server only
+if(process.env.NODE_ENV === "production"){
+	app.use(csp({
+		// Specify directives as normal.
+		directives: {
+			defaultSrc: ["'self'"],
+			scriptSrc: ["'self'", "cdnjs.cloudflare.com", "use.fontawesome.com"],
+			styleSrc: ["'self'", "use.fontawesome.com"],
+			fontSrc: ["use.fontawesome.com"]
+		},
 
-// 	reportOnly: true
-// }));
+		reportOnly: true
+	}));
+}
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
@@ -42,7 +46,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", index);
 
-// Run TweetMonitor
+// Run TweetMonitor (need to rethink how this is called) -------------------
 tm.setInterval();
 
 // catch 404 and forward to error handler

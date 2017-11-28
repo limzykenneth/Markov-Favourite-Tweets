@@ -4,15 +4,17 @@ const Base64 = require("js-base64").Base64;
 const _ = require("lodash");
 const rita = require("rita");
 
-const endPointURL = "https://api.twitter.com/1.1/favorites/list.json";
-const screenName = "limzykenneth";
+// For local testing only
+const screenName = process.env.AccountHandle;
 const count = 200;
 
+const endPointURL = "https://api.twitter.com/1.1/favorites/list.json";
 const consumerKey = process.env.ConsumerKey;
 const consumerSecret = process.env.ConsumerSecret;
 const bearerTokenCred = `${consumerKey}:${consumerSecret}`;
 const base64TokenCred = Base64.encode(bearerTokenCred);
 
+// Authenticate with twitter server, return promise with accessToken
 let authenticate = fetch("https://api.twitter.com/oauth2/token", {
 	method: "post",
 	headers: {
@@ -31,6 +33,7 @@ let authenticate = fetch("https://api.twitter.com/oauth2/token", {
 	return Promise.resolve(accessToken);
 });
 
+// Get favourited tweets of the user given by screenName
 let getFavourites = function(screenName, count=100, returnSize=5){
 	return authenticate.then(function(accessToken){
 		var rm = new rita.RiMarkov(3, true, false);
@@ -65,6 +68,7 @@ let getFavourites = function(screenName, count=100, returnSize=5){
 	});
 };
 
+// Utility function to filter tweets content
 function filterTweets(tweet){
 	// Remove URLS, tend to mess up the Markov Chain
 	var urlRegex = /(?:(?:http[s]?|ftp):\/)?\/?(?:[^:/\s]+)(?:(?:\/\w+)*\/)(?:[\w\-.]+[^#?\s]+)(?:.*)?(?:#[\w-]+)?/gm;
@@ -76,7 +80,8 @@ function filterTweets(tweet){
 	return result;
 }
 
-var generateSentence = function(res){
+// generateSentence based on the favourited tweets
+let generateSentence = function(res){
 	return new Promise(function(resolve, reject){
 		// Removing spaces left after certain symbols
 		var symbolsRegex = /([#$&]) (.+?)\b/gm;
@@ -114,6 +119,7 @@ var generateSentence = function(res){
 	});
 };
 
+// If running locally
 if (require.main === module) {
 	getFavourites(screenName, count).then(function(rm){
 		generateSentence(rm).then(function(sentences){
@@ -122,6 +128,8 @@ if (require.main === module) {
 	}).catch(function(err){
 		console.log(err);
 	});
+
+// If required as a module
 } else {
 	module.exports = {
 		getFavourites: getFavourites,
