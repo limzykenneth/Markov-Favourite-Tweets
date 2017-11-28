@@ -89,11 +89,6 @@ let generateSentence = function(res){
 		if(res.rm.ready()){
 			var sentences = res.rm.generateSentences(res.returnSize).map(function(sentence){
 				var sen = sentence.replace(symbolsRegex, "$1$2");
-				sen = sen.replace("<", "&lt;");
-				sen = sen.replace(">", "&gt;");
-				sen = sen.replace("\"", "&quot;");
-				sen = sen.replace("'", "&#x27;");
-				sen = sen.replace("/", "&#x2F;");
 				return sen;
 			});
 			resolve(sentences);
@@ -103,11 +98,6 @@ let generateSentence = function(res){
 				if(res.rm.ready()){
 					var sentences = res.rm.generateSentences(res.returnSize).map(function(sentence){
 						var sen = sentence.replace(symbolsRegex, "$1$2");
-						sen = sen.replace("<", "&lt;");
-						sen = sen.replace(">", "&gt;");
-						sen = sen.replace("\"", "&quot;");
-						sen = sen.replace("'", "&#x27;");
-						sen = sen.replace("/", "&#x2F;");
 						return sen;
 					});
 					resolve(sentences);

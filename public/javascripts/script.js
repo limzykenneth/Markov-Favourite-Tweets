@@ -70,9 +70,10 @@ function renderTweets(sentences){
 	$("#page-content #result").css("display", "block");
 	var tpl = _.template($("#tweets-template").html());
 
-	sentences = sentences.map(function(sen){
-		return he.decode(sen);
-	});
+	// console.log(he.encode(encodeURIComponent(sentences[0])));
+	// sentences = sentences.map(function(sen){
+		// return he.decode(sen);
+	// });
 
 	$("#tweets").html(tpl({sentences: sentences}));
 
