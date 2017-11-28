@@ -37,7 +37,7 @@ let authenticate = fetch("https://api.twitter.com/oauth2/token", {
 let getFavourites = function(screenName, count=100, returnSize=5){
 	return authenticate.then(function(accessToken){
 		var rm = new rita.RiMarkov(3, true, false);
-		var reqURL = `${endPointURL}?screen_name=${screenName}&count=${count}`;
+		var reqURL = `${endPointURL}?screen_name=${screenName}&count=${count}&tweet_mode=extended`;
 		return fetch(reqURL, {
 			headers: {
 				"Authorization": `Bearer ${accessToken}`,
@@ -51,8 +51,8 @@ let getFavourites = function(screenName, count=100, returnSize=5){
 			var tweets = [];
 
 			_.each(data, function(el, i){
-				if(el.text && el.text.length > 0){
-					tweets.push(el.text);
+				if(el.full_text && el.full_text.length > 0){
+					tweets.push(el.full_text);
 				}
 			});
 
@@ -64,6 +64,8 @@ let getFavourites = function(screenName, count=100, returnSize=5){
 				rm: rm,
 				returnSize: returnSize
 			});
+		}).catch(function(err){
+			console.log(err.stack);
 		});
 	});
 };
@@ -72,10 +74,8 @@ let getFavourites = function(screenName, count=100, returnSize=5){
 function filterTweets(tweet){
 	// Remove URLS, tend to mess up the Markov Chain
 	var urlRegex = /(?:(?:http[s]?|ftp):\/)?\/?(?:[^:/\s]+)(?:(?:\/\w+)*\/)(?:[\w\-.]+[^#?\s]+)(?:.*)?(?:#[\w-]+)?/gm;
-	// Remove ellipses
-	var ellipsesRegex = /\.{2,}|…+/gm;
 
-	var result = tweet.replace(urlRegex, "").replace(ellipsesRegex, ".");
+	var result = tweet.replace(urlRegex, "");
 
 	return result;
 }
