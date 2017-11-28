@@ -106,7 +106,7 @@ let generateSentence = function(res){
 					var sen = sentence.replace(symbolsRegex, "$1$2");
 					return sen;
 				}).filter(function(sentence){
-					return sentence.length <= 140;
+					return sentence.length <= (140 - (process.env.AccountHandle.length + 6));
 				});
 				sentences = sentences.concat(s);
 			}
