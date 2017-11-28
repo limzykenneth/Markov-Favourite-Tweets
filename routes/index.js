@@ -33,9 +33,9 @@ router.post("/", function(req, res, next){
 
 router.post("/tweeted", function(req, res, next){
 	// Save tweet into Redis store with the tweet as the key
-	client.setexAsync(req.body.tweet, 240, Date.now()).then(function(res){
+	client.setexAsync(req.body.tweet, 240, Date.now()).then(function(data){
 		// Should say "OK"
-		res.json([res]);
+		res.json([data]);
 	}).catch(function(err){
 		next(err);
 	});

@@ -4,7 +4,12 @@ var Promise = require("bluebird");
 var redis = require("redis");
 Promise.promisifyAll(redis.RedisClient.prototype);
 Promise.promisifyAll(redis.Multi.prototype);
-var	client = redis.createClient();
+var client;
+if(process.env.NODE_ENV === "production"){
+	client = redis.createClient(process.env.REDIS_URL);
+}else{
+	client = redis.createClient();
+}
 const _ = require("lodash");
 const async = require("async");
 

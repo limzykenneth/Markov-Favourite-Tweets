@@ -1,3 +1,4 @@
+require("dotenv").config();
 const gulp = require("gulp");
 const rename = require("gulp-rename");
 const nodemon = require("gulp-nodemon"),
@@ -8,6 +9,8 @@ const gutil = require("gulp-util");
 const less = require("gulp-less"),
 	  cleanCSS = require("gulp-clean-css"),
       autoprefixer = require("gulp-autoprefixer");
+
+const handlebars = require("gulp-compile-handlebars");
 
 const path = require("path");
 
@@ -59,7 +62,19 @@ gulp.task("stylesheets", function(){
 		.pipe(browserSync.stream());
 });
 
-gulp.task("default", ["stylesheets"]);
+gulp.task("handlebars", function(){
+	return gulp.src(path.join(__dirname, "views/*.js.handlebars"))
+		.pipe(plumber({
+			errorHandler: onError
+		}))
+		.pipe(handlebars({
+			AccountHandle: process.env.AccountHandle
+		}))
+		.pipe(rename("script.js"))
+		.pipe(gulp.dest(path.join(__dirname, "public/javascripts/")))
+});
+
+gulp.task("default", ["stylesheets", "handlebars"]);
 
 
 function onError(err){

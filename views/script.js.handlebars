@@ -78,7 +78,7 @@ function renderTweets(sentences){
 
 	$("#page-content #result #tweets .twitter-share-button").click(function(e) {
 		var content = {
-			tweet: $(this).parent().siblings(".generated-sentence").text() + " via @limzykenneth"
+			tweet: $(this).parent().siblings(".generated-sentence").text() + " via @{{AccountHandle}}"
 		};
 		fetch("/tweeted", {
 			method: "post",
